@@ -1,0 +1,13 @@
+Data Collection: Scraping data from IMDb to collect information about movies.
+
+Data Analysis: Analyzing the collected data, including:
+
+Number of movies per year
+Distribution of ratings
+Top movies by rating
+Scatter plot of year vs rating
+Rating distribution by movie duration
+Average rating by year
+
+Data Visualization: Visualizing the analyzed data using various plots and charts.
+User Interaction: Integrating Tkinter for a graphical user interface (GUI) to interact with the data and display visualizations.

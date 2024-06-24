@@ -4,14 +4,13 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import subprocess
 
-# Initial read of the CSV file
 df = pd.read_csv('imdb_movies.csv')
 pd.set_option('display.max_rows', 100)
 pd.set_option('display.max_columns', 100)
 df = df.where(pd.notnull(df), None)
 
 def reload_data():
-    subprocess.run(["python", "IMDb_collector.py"])  # Run the external script
+    subprocess.run(["python", "IMDb_collector.py"])
     global df
     df = pd.read_csv('imdb_movies.csv')  # Reload the CSV file
     df = df.where(pd.notnull(df), None)
@@ -112,7 +111,7 @@ def plot_scatter(x_data, y_data, color, title, xlabel, ylabel):
 
 def plot_violin(x_data, y_data, title, xlabel, ylabel, palette):
     plt.figure(figsize=(12, 8))
-    sns.violinplot(x=x_data, y=y_data, data=df, palette=palette, inner='quartile')
+    sns.violinplot(x=x_data, y=y_data, data=df, hue=x_data, palette=palette, inner='quartile', legend=False)
     plt.title(title)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
@@ -122,7 +121,7 @@ def plot_violin(x_data, y_data, title, xlabel, ylabel, palette):
 
 def plot_countplot(x_data, title, xlabel, ylabel, palette):
     plt.figure(figsize=(10, 6))
-    sns.countplot(x=x_data, data=df, palette=palette)
+    sns.countplot(x=x_data, data=df, hue=x_data, palette=palette, legend=False)
     plt.title(title)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
@@ -137,9 +136,6 @@ def display_main_menu():
     label = tk.Label(root, text="Select a category to display:")
     label.pack()
 
-    reload_button = tk.Button(root, text="Reload Data", command=reload_data)
-    reload_button.pack(pady=10)
-
     top10_button = tk.Button(root, text="Category: Top 10", command=display_top_10_submenu)
     top10_button.pack(pady=10)
 
@@ -149,8 +145,12 @@ def display_main_menu():
     other_plots_button = tk.Button(root, text="Others (All other plots)", command=display_other_plots_submenu)
     other_plots_button.pack(pady=10)
 
+    reload_button = tk.Button(root, text="Reload Data", command=reload_data)
+    reload_button.pack(pady=10)
+
     exit_button = tk.Button(root, text="Exit", command=root.destroy)
     exit_button.pack(pady=10)
+
 
 def display_top_10_submenu():
     for widget in root.winfo_children():
@@ -215,11 +215,10 @@ def display_other_plots_submenu():
     back_button = tk.Button(root, text="Back to Main Menu", command=display_main_menu)
     back_button.pack(pady=10)
 
-# Initialize the main menu
+
 root = tk.Tk()
 root.title('IMDB Movie Analysis')
 
-# Display the main menu
 display_main_menu()
 
 root.mainloop()

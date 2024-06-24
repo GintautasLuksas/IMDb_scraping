@@ -1,40 +1,28 @@
-# IMDB Data Analysis and Visualization Tool
+# IMDb Movie Analysis
 
-## Description
+This application provides a graphical user interface for analyzing IMDb movie data using various plots. The data is initially read from a CSV file, and the application allows users to reload the data by running an external script.
 
-The **IMDB Data Analysis and Visualization Tool** is a Python program designed to scrape data from IMDb, analyze movie statistics, and visualize trends using various charts and plots. It provides functionalities to explore and interact with IMDb movie data dynamically through a graphical user interface (GUI) built using Tkinter.
+## Features
+- **Top 10 Movies by Rating**: Displays a bar plot of the top 10 movies by rating.
+- **Top 10 Movies by Rating Amount**: Displays a bar plot of the top 10 movies by rating amount.
+- **Top 10 Movies by Duration**: Displays a bar plot of the top 10 movies by duration.
+- **Year vs Rating**: Displays a line plot showing the average rating by year.
+- **Year vs Length**: Displays a line plot showing the average movie length by year.
+- **Year vs Rating Amount**: Displays a line plot showing the average rating amount by year.
+- **Other Plots**: Displays various other plots, including:
+  - Number of Movies by Year
+  - Distribution of Ratings
+  - Scatter Plot: Year vs Rating
+  - Rating Distribution by Duration Category
+  - Number of Movies by Group
 
-## Key Features
-
-- **Data Collection**: Scrapes IMDb to collect movie information including title, year, rating, and duration.
-  
-- **Data Analysis**:
-  - Number of movies per year
-  - Distribution of ratings
-  - Top movies by rating
-  - Scatter plot of year vs rating
-  - Rating distribution by movie duration
-  - Average rating by year
-  
-- **Data Visualization**: Generates visualizations using Matplotlib and Seaborn libraries:
-  - Bar charts
-  - Histograms
-  - Scatter plots
-  - Violin plots
-  - Line plots
-  
-
-## Usage
-
-The program allows users to:
-- Scrape IMDb for the latest movie data.
-- Analyze and visualize movie statistics.
-- Interact with visualizations through a user-friendly interface.
+## File Structure
+main.py: The main script that runs the GUI application.
+IMDb_collector.py: The script to update the imdb_movies.csv file.
+imdb_movies.csv: The CSV file containing IMDb movie data.
 
 ## Dependencies
-
-- Python 3.x
-- Pandas
-- Matplotlib
-- Seaborn
-- Tkinter (To make it more interesting)
+tkinter: For creating the GUI and making it more fun.
+pandas: For data manipulation.
+matplotlib: For creating static, animated, and interactive visualizations.
+seaborn: For making statistical graphics.

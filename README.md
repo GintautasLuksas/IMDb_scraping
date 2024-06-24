@@ -17,12 +17,12 @@ This application provides a graphical user interface for analyzing IMDb movie da
   - Number of Movies by Group
 
 ## File Structure
-main.py: The main script that runs the GUI application.
-IMDb_collector.py: The script to update the imdb_movies.csv file.
-imdb_movies.csv: The CSV file containing IMDb movie data.
+- **main.py: The main script that runs the GUI application.
+- **IMDb_collector.py: The script to update the imdb_movies.csv file.
+- **imdb_movies.csv: The CSV file containing IMDb movie data.
 
 ## Dependencies
-tkinter: For creating the GUI and making it more fun.
-pandas: For data manipulation.
-matplotlib: For creating static, animated, and interactive visualizations.
-seaborn: For making statistical graphics.
+- **tkinter: For creating the GUI and making it more fun.
+- **pandas: For data manipulation.
+- **matplotlib: For creating static, animated, and interactive visualizations.
+- **seaborn: For making statistical graphics.

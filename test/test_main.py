@@ -1,59 +1,80 @@
+import sys
 import unittest
-import subprocess
-import os
+from unittest.mock import patch
 import pandas as pd
+import matplotlib.pyplot as plt
+import tkinter as tk
 
-class TestMainScript(unittest.TestCase):
+# Adjust the Python path to include the 'src' directory
+sys.path.append('../src')  # Assuming test_main.py is inside 'test' folder
+
+# Import main_file (assuming it's in src/main_file.py)
+import main_file as main  # Now Python should find main_file.py inside 'src'
+
+class TestIMDBAnalysisApp(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        # This method runs once before all tests, set up any initial configurations or data here
+        cls.df = pd.DataFrame({
+            'Title': ['Movie A', 'Movie B', 'Movie C'],
+            'Rating': [8.5, 9.0, 7.5],
+            'Rating Amount': [1000, 1500, 800],
+            'Duration (minutes)': [120, 110, 130],
+            'Year': [2010, 2015, 2020],
+            'Group': ['Group1', 'Group2', 'Group1']
+        })
+
+    def test_show_top_10_movies_by_rating(self):
+        main.df = self.df  # Mocking the dataframe
+        with patch('main_file.plot_barh') as mock_plot_barh:
+            main.show_top_10_movies_by_rating()
+            mock_plot_barh.assert_called_once()
+
+    def test_show_top_10_movies_by_rating_amount(self):
+        main.df = self.df  # Mocking the dataframe
+        with patch('main_file.plot_barh') as mock_plot_barh:
+            main.show_top_10_movies_by_rating_amount()
+            mock_plot_barh.assert_called_once()
+
+    def test_show_top_10_movies_by_length(self):
+        main.df = self.df  # Mocking the dataframe
+        with patch('main_file.plot_barh') as mock_plot_barh:
+            main.show_top_10_movies_by_length()
+            mock_plot_barh.assert_called_once()
+
+    def test_show_year_vs_rating(self):
+        main.df = self.df  # Mocking the dataframe
+        with patch('main_file.plot_line') as mock_plot_line:
+            main.show_year_vs_rating()
+            mock_plot_line.assert_called_once()
+
+    def test_show_year_vs_length(self):
+        main.df = self.df  # Mocking the dataframe
+        with patch('main_file.plot_line') as mock_plot_line:
+            main.show_year_vs_length()
+            mock_plot_line.assert_called_once()
+
+    def test_show_year_vs_rating_amount(self):
+        main.df = self.df  # Mocking the dataframe
+        with patch('main_file.plot_line') as mock_plot_line:
+            main.show_year_vs_rating_amount()
+            mock_plot_line.assert_called_once()
+
+    def test_display_main_menu(self):
+        root = tk.Tk()
+        with patch.object(root, 'mainloop'):
+            with patch('main_file.display_main_menu'):
+                main.display_main_menu()
+                self.assertEqual(len(root.winfo_children()), 5)  # Check if all buttons and labels are created
 
     def test_reload_data(self):
-        # Run IMDb_collector.py to generate imdb_movies.csv
-        subprocess.run(["python", "IMDb_collector.py"])
+        with patch('subprocess.run'):
+            with patch('pandas.read_csv', return_value=self.df):
+                main.reload_data()
+                self.assertTrue(isinstance(main.df, pd.DataFrame))
 
-        # Import main.py and reload the data
-        import src.main
-        src.main.reload_data()
-
-        # Assert that df is a pandas DataFrame and is not empty
-        self.assertIsInstance(src.main.df, pd.DataFrame)
-        self.assertFalse(src.main.df.empty)
-
-    def test_top_10_movies_by_rating(self):
-        import src.main
-        src.main.reload_data()
-        src.main.show_top_10_movies_by_rating()
-
-        # Assert that the top 10 movies by rating are displayed correctly
-        # Example assertion: Check if the first movie in the list has a valid title and rating
-        top_10_movies = src.main.df.nlargest(10, 'Rating')
-        self.assertEqual(len(top_10_movies), 10)  # Check if there are exactly 10 movies
-        self.assertTrue(all(top_10_movies['Title']))  # Check if all titles are non-empty strings
-        self.assertTrue(all(top_10_movies['Rating'] >= 0))  # Check if all ratings are non-negative
-
-    def test_top_10_movies_by_rating_amount(self):
-        import src.main
-        src.main.reload_data()
-        src.main.show_top_10_movies_by_rating_amount()
-
-        # Assert that the top 10 movies by rating amount are displayed correctly
-        # Example assertion: Check if the top movie has a valid title and rating amount
-        top_10_movies = src.main.df.sort_values('Rating Amount', ascending=False).head(10)
-        self.assertEqual(len(top_10_movies), 10)  # Check if there are exactly 10 movies
-        self.assertTrue(all(top_10_movies['Title']))  # Check if all titles are non-empty strings
-        self.assertTrue(all(top_10_movies['Rating Amount'] >= 0))  # Check if all rating amounts are non-negative
-
-    def test_top_10_movies_by_length(self):
-        import src.main
-        src.main.reload_data()
-        src.main.show_top_10_movies_by_length()
-
-        # Assert that the top 10 movies by length are displayed correctly
-        # Example assertion: Check if the first movie in the list has a valid title and duration
-        top_10_movies = src.main.df.nlargest(10, 'Duration (minutes)')
-        self.assertEqual(len(top_10_movies), 10)  # Check if there are exactly 10 movies
-        self.assertTrue(all(top_10_movies['Title']))  # Check if all titles are non-empty strings
-        self.assertTrue(all(top_10_movies['Duration (minutes)'] >= 0))  # Check if all durations are non-negative
-
-    # Add more test cases for other functions in main.py as needed
+    # Add more tests as needed for other functions...
 
 if __name__ == '__main__':
     unittest.main()

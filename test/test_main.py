@@ -5,11 +5,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import tkinter as tk
 
-# Adjust the Python path to include the 'src' directory
-sys.path.append('../src')  # Assuming test_main.py is inside 'test' folder
+sys.path.append('../src')
 
-# Import main_file (assuming it's in src/main_file.py)
-import main_file as main  # Now Python should find main_file.py inside 'src'
+import src.main_file as main
 
 class TestIMDBAnalysisApp(unittest.TestCase):
 

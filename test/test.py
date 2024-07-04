@@ -1,4 +1,5 @@
 import os
+import sys
 import subprocess
 import pytest
 from selenium import webdriver
@@ -6,7 +7,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 import csv
-from src.IMDb_collector import time_to_minutes, clean_rating_amount, scrape_imdb_data, save_to_csv
+
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+
+from IMDb_collector import time_to_minutes, clean_rating_amount, scrape_imdb_data, save_to_csv
+
 
 @pytest.fixture(scope="module")
 def driver():
@@ -80,7 +86,7 @@ def test_csv_output(driver):
 
         data.append([title, year, rate_text, length, rate_amount, group])
 
-    csv_filename = 'imdb_movies.csv'
+    csv_filename = os.path.abspath(os.path.join(os.path.dirname(__file__), '../src/imdb_movies.csv'))
     save_to_csv(data, csv_filename)
 
     assert os.path.isfile(csv_filename)  # Check if CSV file is created
@@ -91,7 +97,7 @@ def test_csv_output(driver):
         assert headers == ['Title', 'Year', 'Rating', 'Duration (minutes)', 'Rating Amount', 'Group']
 
 def test_script_execution():
-    script_path = os.path.join(os.path.dirname(__file__), 'src', 'IMDb_collector.py')
+    script_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../src', 'IMDb_collector.py'))
 
     result = subprocess.run(['python', script_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     assert result.returncode == 0

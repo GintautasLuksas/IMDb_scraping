@@ -7,7 +7,7 @@ import tkinter as tk
 
 sys.path.append('../src')
 
-import src.main_file as main
+import main_file as main
 
 class TestIMDBAnalysisApp(unittest.TestCase):
 
